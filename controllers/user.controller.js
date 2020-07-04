@@ -1,5 +1,4 @@
 const User = require('../models/user.model');
-const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
 const createUser = async (req, res) => {
@@ -17,13 +16,9 @@ const createUser = async (req, res) => {
     let user = await User.findOne({ email });
 
     if (user) {
-      return res.status(400).json({
-        errors: [
-          {
-            msg: "Пользователь с данным e-mail уже существует!"
-          }
-        ]
-      });
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Пользователь с данным e-mail уже существует!' }] });
     }
 
     const contacts = {
@@ -45,19 +40,14 @@ const createUser = async (req, res) => {
     user.password = await bcrypt.hash(password, salt);
     await user.save();
 
-    res.status(200).json({
-      msg: `Пользователь ${firstName} ${middleName} успешно зарегистрирован!`
-    });
+    res
+      .status(200)
+      .json({ msg: `Пользователь ${firstName} ${middleName} успешно зарегистрирован!` });
 
   } catch (err) {
-    return res.status(400).json({
-      errors: [
-        {
-          err,
-          msg: "Регистрация не удалась по техническим причинам"
-        }
-      ]
-    });
+    return res
+      .status(400)
+      .json({ errors: [{ err, msg: 'Пользователь с данным e-mail уже существует!' }] });
   }
 }
 
