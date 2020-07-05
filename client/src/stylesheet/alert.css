@@ -1,0 +1,12 @@
+.alert {
+  z-index: 1;
+  position: absolute;
+  top: 3vh;
+  left: 3vh;
+  background: #fff;
+  box-shadow: 0 0 10px #1b1b1b34;
+  padding: 1em;
+}
+.alert-danger {
+  background: #f15d5de8;
+}

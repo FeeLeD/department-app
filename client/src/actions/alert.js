@@ -5,7 +5,7 @@ import {
 import uuid from 'uuid';
 
 export const setAlert = (msg, alertType, timer = 5000) => dispatch => {
-  const id = uuid().v4();
+  const id = uuid.v4();
   dispatch({
     type: SET_ALERT,
     payload: { id, msg, alertType }

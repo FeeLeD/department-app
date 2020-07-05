@@ -52,4 +52,20 @@ const signIn = async (req, res) => {
   }
 };
 
-module.exports = { signIn };
+const requireSignIn = async (req, res, next) => {
+  const token = req.header('x-auth-token');
+
+  // token verification
+  try {
+    const decoded = jwt.verify(token, config.jwtSecret);
+
+    req.myId = decoded.user.id;
+    next();
+  } catch (err) {
+    res
+      .status(401)
+      .json({ errors: [{ msg: 'Время действия токена истекло' }] });
+  }
+};
+
+module.exports = { signIn, requireSignIn };

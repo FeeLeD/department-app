@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Dialog from './Dialog';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const Dialogs = () => {
+const Dialogs = ({ user }) => {
   return (
     <div className='dialogs'>
-      <Dialog />
-      <Dialog />
+      {user.isAuthenticated ?
+        <Fragment>
+          <Dialog />
+          <Dialog />
+        </Fragment>
+        :
+        <div className='dialog-unavailable'>
+          <span>Чат недоступен...</span>
+        </div>
+      }
     </div>
   );
 }
 
-export default Dialogs;
+Dialog.propTypes = {
+  user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.auth
+});
+
+export default connect(mapStateToProps)(Dialogs);

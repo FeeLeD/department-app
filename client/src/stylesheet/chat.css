@@ -53,6 +53,13 @@
   grid-template-columns: 3em 17em 1fr;
   min-height: calc(100vh - 8.1em);
 }
+.chat-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 3em);
+  font-size: 2em;
+}
 .left-panel {
   display: flex;
   flex-direction: column;
@@ -77,6 +84,13 @@
 .dialogs {
   display: flex;
   flex-direction: column;
+}
+.dialog-unavailable {
+  margin: .5em .5em 0;
+  height: 4.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .dialog {
   margin: .5em .5em 0;
@@ -105,6 +119,16 @@
   display: grid;
   grid-template-rows: 3.2em 1fr 5em;
   width: 95%;
+}
+.chat-area-image-container {
+  grid-row: 1 / 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.chat-area-image-container img {
+  height: 60%;
 }
 .chat-area > div {
   display: flex;

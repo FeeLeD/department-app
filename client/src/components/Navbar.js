@@ -5,6 +5,7 @@ const Navbar = () => {
   return(
     <nav>
       <ul>
+        <li><Link to='/'>Главная</Link></li>
         <li><Link>Студенту</Link></li>
         <li><Link>Сотруднику</Link></li>
         <li><Link>Контакты</Link></li>

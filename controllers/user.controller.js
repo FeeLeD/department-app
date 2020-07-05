@@ -53,7 +53,7 @@ const createUser = async (req, res) => {
 
 const userById = async (req, res, next, id) => {
   try {
-    const user = User.findOne({ id }).select('-password');
+    const user = await User.findById(id).select('-password');
     req.user = user;
     next();
   } catch (err) {
@@ -62,9 +62,15 @@ const userById = async (req, res, next, id) => {
 }
 
 const getUser = async (req, res) => {
-  const user = req.user;
-  if (user)
+  let user;
+  if (req.user) {
+    user = req.user;
     res.json({ user });
+  }
+  else if (req.myId) {
+    user = await User.findById(req.myId).select('-password');
+    res.json({ user });
+  }
   else
     res
       .status(400)
@@ -72,7 +78,7 @@ const getUser = async (req, res) => {
 }
 
 const getUsers = async (req, res) => {
-  
+
 }
 
 module.exports = { createUser, userById, getUser, getUsers };
