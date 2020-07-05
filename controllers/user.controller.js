@@ -53,19 +53,26 @@ const createUser = async (req, res) => {
 
 const userById = async (req, res, next, id) => {
   try {
-
+    const user = User.findOne({ id }).select('-password');
+    req.user = user;
     next();
   } catch (err) {
-
+    console.log(err);
   }
 }
 
 const getUser = async (req, res) => {
-
+  const user = req.user;
+  if (user)
+    res.json({ user });
+  else
+    res
+      .status(400)
+      .json({ errors: [{ msg: 'Не удалось загрузить пользователя' }] });
 }
 
 const getUsers = async (req, res) => {
-
+  
 }
 
 module.exports = { createUser, userById, getUser, getUsers };

@@ -1,0 +1,12 @@
+footer {
+  width: 100%;
+  height: 15vh;
+  background-image: url('../images/dark_back.png');
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #fff;
+  box-shadow: 0 -5px 10px #0000004d
+}

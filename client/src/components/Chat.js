@@ -1,5 +1,9 @@
 import React from 'react';
 
+// Images
+import search from '../images/search.png';
+import menu from '../images/menu.png';
+
 // Components
 import Header from './chat/Header';
 import Dialogs from './chat/Dialogs';
@@ -12,8 +16,12 @@ const Chat = () => {
       <Header />
       <div className='chat-main'>
         <div className='left-panel'>
-          <button>1</button>
-          <button>2</button>
+          <button>
+            <img src={search} />
+          </button>
+          <button>
+            <img src={menu} />
+          </button>
         </div>
         <Dialogs />
         <div className='chat-area'>
