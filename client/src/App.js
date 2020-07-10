@@ -15,6 +15,7 @@ import './stylesheet/chat.css';
 import './stylesheet/login.css';
 import './stylesheet/footer.css';
 import './stylesheet/alert.css';
+import './stylesheet/profile.css';
 
 // Components 
 import Navbar from './components/Navbar';
@@ -23,6 +24,7 @@ import Alert from './components/Alert';
 import Login from './components/Login';
 import Footer from './components/Footer';
 import Main from './components/Main';
+import Profile from './components/Profile';
 
 if (localStorage.token)
   setToken(localStorage.token);
@@ -37,6 +39,7 @@ const App = () => {
       <Router>
         <Alert />
         <Login />
+        <Profile />
         <Navbar />
         <Switch>
           <Route exact path='/' component={Main} />

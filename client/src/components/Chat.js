@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 // Images
 import search from '../images/search.png';
 import menu from '../images/menu.png';
+import chatIcon from '../images/chat_icon.png';
 import chat from '../images/chat.png';
 
 // Components
@@ -14,8 +15,27 @@ import Header from './chat/Header';
 import Dialogs from './chat/Dialogs';
 import Messages from './chat/Messages';
 import Input from './chat/Input';
+import Search from './chat/Search';
 
 const Chat = ({ user }) => {
+  const [isSearchOpened, setSearchOpened] = useState(false);
+
+  const openSearch = e => {
+    e.preventDefault();
+    const dialogsDiv = document.getElementById('dialogs-container');
+    const searchDiv = document.getElementById('search-container');
+
+    if (isSearchOpened) {
+      setSearchOpened(false);
+      dialogsDiv.style.display = 'initial';
+      searchDiv.style.display = 'none';
+    } else {
+      setSearchOpened(true);
+      dialogsDiv.style.display = 'none';
+      searchDiv.style.display = 'initial';
+    }
+  }
+
   return (
     <div className='chat-container'>
       {
@@ -30,8 +50,8 @@ const Chat = ({ user }) => {
               <div className='left-panel'>
                 {user.isAuthenticated &&
                   <Fragment>
-                    <button>
-                      <img src={search} alt='S' />
+                    <button onClick={e => openSearch(e)}>
+                      <img src={isSearchOpened ? chatIcon : search} alt='S' />
                     </button>
                     <button>
                       <img src={menu} alt='M' />
@@ -39,6 +59,7 @@ const Chat = ({ user }) => {
                   </Fragment>
                 }
               </div>
+              <Search />
               <Dialogs />
               <div className='chat-area'>
                 {user.isAuthenticated ?

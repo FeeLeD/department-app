@@ -5,18 +5,19 @@ import PropTypes from 'prop-types';
 
 const Dialogs = ({ user }) => {
   return (
-    <div className='dialogs'>
-      {user.isAuthenticated ?
-        <Fragment>
-          <Dialog />
-          <Dialog />
-        </Fragment>
-        :
-        <div className='dialog-unavailable'>
-          <span>Чат недоступен...</span>
-        </div>
-      }
-    </div>
+    <Fragment>
+      <div id='dialogs-container' className='dialogs'>
+        {user.isAuthenticated ?
+          <Fragment>
+            <Dialog />
+          </Fragment>
+          :
+          <div className='dialog-unavailable'>
+            <span>Чат недоступен...</span>
+          </div>
+        }
+      </div>
+    </Fragment>
   );
 }
 

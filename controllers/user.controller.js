@@ -78,7 +78,14 @@ const getUser = async (req, res) => {
 }
 
 const getUsers = async (req, res) => {
-
+  try {
+    const users = await User.find();
+    res.json({ users });
+  } catch(err) {
+    res
+      .status(400)
+      .json({ errors: [{ err, msg: 'Не удалось загрузить пользователей...' }]});
+  }
 }
 
 module.exports = { createUser, userById, getUser, getUsers };

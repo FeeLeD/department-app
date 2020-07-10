@@ -15,7 +15,7 @@ router.route('/')
 router.route('/:id')
   .get(getUser); // get user data
 
-router.route('/all')
+router.route('/find/all')
   .get(getUsers); // get all users data
 
 router.param('id', userById);
