@@ -1,14 +1,15 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
+import { getChats } from '../actions/chat';
 
 // Images
 import search from '../images/search.png';
 import menu from '../images/menu.png';
 import chatIcon from '../images/chat_icon.png';
-import chat from '../images/chat.png';
+import chatImg from '../images/chat.png';
 
 // Components
 import Header from './chat/Header';
@@ -17,8 +18,14 @@ import Messages from './chat/Messages';
 import Input from './chat/Input';
 import Search from './chat/Search';
 
-const Chat = ({ user }) => {
+const Chat = ({ user, chat, getChats }) => {
   const [isSearchOpened, setSearchOpened] = useState(false);
+
+  useEffect(() => {
+    if (user.isLoaded) {
+      getChats();
+    }
+  }, [user.isLoaded]);
 
   const openSearch = e => {
     e.preventDefault();
@@ -64,15 +71,20 @@ const Chat = ({ user }) => {
               <div className='chat-area'>
                 {user.isAuthenticated ?
                   <Fragment>
-                    <div className='chat-area-block header'>
-                      User
-              </div>
-                    <Messages />
-                    <Input />
+                    {
+                      (chat && chat.activeChat !== -1) ?
+                        <Fragment>
+                          <div className='chat-area-block header'>User</div>
+                          <Messages />
+                          <Input />
+                        </Fragment>
+                        :
+                        <div className='no-chats'>Выберите чат...</div>
+                    }
                   </Fragment>
                   :
                   <div className='chat-area-image-container'>
-                    <img src={chat} alt='Chat' />
+                    <img src={chatImg} alt='Chat' />
                   </div>
                 }
               </div>
@@ -85,11 +97,13 @@ const Chat = ({ user }) => {
 };
 
 Chat.propTypes = {
+  getChats: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.auth
+  user: state.auth,
+  chat: state.chat
 });
 
-export default connect(mapStateToProps)(Chat);
+export default connect(mapStateToProps, { getChats })(Chat);

@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import plane from '../../images/plane.png';
 import clip from '../../images/clip.png';
 
-const Input = () => {
+import postMessage from '../../utils/postMessage';
+
+const Input = ({ user, chat }) => {
+  const [message, setMessage] = useState('');
+
+  const send = e => {
+    e.preventDefault();
+
+    if (message === '') return;
+
+    const messageData = {
+      chatId: chat.activeChat,
+      userId: user.data._id,
+      firstName: user.data.firstName,
+      middleName: user.data.middleName,
+      secondName: user.data.secondName,
+      content: message
+    };
+
+    postMessage(messageData);
+
+    setMessage('');
+  };
+
   return (
     <div className='chat-area-block input'>
       <div>
@@ -13,12 +37,14 @@ const Input = () => {
       </div>
       <div>
         <textarea
+          value={message}
+          onChange={e => setMessage(e.target.value)}
           maxLength='300'
           placeholder='Ваше сообщение...'
         />
       </div>
       <div>
-        <button>
+        <button onClick={e => send(e)}>
           <img className='img-plane' src={plane} alt='Go'/>
         </button>
       </div>
@@ -26,4 +52,9 @@ const Input = () => {
   );
 }
 
-export default Input;
+const mapStateToProps = state => ({
+  user: state.auth,
+  chat: state.chat
+});
+
+export default connect(mapStateToProps)(Input);

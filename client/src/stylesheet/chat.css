@@ -195,6 +195,12 @@
   border-radius: .5em .5em 0 0;
   border-bottom: .05em solid #131c293d;
 }
+.chat-area .no-chats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: .5em 0 0 .5em;
+}
 .chat-area .messages {
   box-sizing: border-box;
   height: calc(100vh - 16.35em);
@@ -230,6 +236,7 @@
   align-items: center;
   padding: 0 1em;
   font-weight: bold;
+  color: #000000b2;
 }
 .chat-area .outComing .message div:first-child {
   flex-direction: row-reverse;

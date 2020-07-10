@@ -1,14 +1,14 @@
 import React from 'react';
 
-const Message = () => {
+const Message = ({ user, content, date, outComing }) => {
   return (
-    <div className='message-area'>
+    <div className={outComing ? 'message-area outComing' : 'message-area'}>
       <div className='message'>
         <div>
-          <span>Name</span>
-          <span className='span-date'>Date</span>
+          <span>{`${user.firstName} ${user.middleName}`}</span>
+          <span className='span-date'>{date}</span>
         </div>
-        <div>Message message message message</div>
+        <div>{content}</div>
       </div>
     </div>
   );

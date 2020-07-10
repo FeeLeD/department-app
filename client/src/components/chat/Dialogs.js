@@ -1,15 +1,22 @@
 import React, { Fragment } from 'react';
 import Dialog from './Dialog';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
-const Dialogs = ({ user }) => {
+const Dialogs = ({ user, chat }) => {
   return (
     <Fragment>
       <div id='dialogs-container' className='dialogs'>
-        {user.isAuthenticated ?
+        {(user && user.isAuthenticated) ?
           <Fragment>
-            <Dialog />
+            { (chat && chat.chats) && 
+              chat.chats.map(c => 
+                <Dialog
+                  key={c._id}
+                  id={c._id}
+                  name={c.name}
+                  users={c.users} 
+                />) 
+            }
           </Fragment>
           :
           <div className='dialog-unavailable'>
@@ -21,12 +28,9 @@ const Dialogs = ({ user }) => {
   );
 }
 
-Dialog.propTypes = {
-  user: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
-  user: state.auth
+  user: state.auth,
+  chat: state.chat
 });
 
 export default connect(mapStateToProps)(Dialogs);
