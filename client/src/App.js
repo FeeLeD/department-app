@@ -25,6 +25,7 @@ import Login from './components/Login';
 import Footer from './components/Footer';
 import Main from './components/Main';
 import Profile from './components/Profile';
+import CreateChat from './components/chat/CreateChat';
 
 if (localStorage.token)
   setToken(localStorage.token);
@@ -36,10 +37,11 @@ const App = () => {
 
   return (
     <Provider store={store}>
+      <Alert />
+      <Login />
+      <CreateChat />
+      <Profile />
       <Router>
-        <Alert />
-        <Login />
-        <Profile />
         <Navbar />
         <Switch>
           <Route exact path='/' component={Main} />

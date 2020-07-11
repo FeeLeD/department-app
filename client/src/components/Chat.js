@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -8,7 +8,6 @@ import { getChats } from '../actions/chat';
 // Images
 import search from '../images/search.png';
 import menu from '../images/menu.png';
-import chatIcon from '../images/chat_icon.png';
 import chatImg from '../images/chat.png';
 
 // Components
@@ -16,10 +15,8 @@ import Header from './chat/Header';
 import Dialogs from './chat/Dialogs';
 import Messages from './chat/Messages';
 import Input from './chat/Input';
-import Search from './chat/Search';
 
 const Chat = ({ user, chat, getChats }) => {
-  const [isSearchOpened, setSearchOpened] = useState(false);
 
   useEffect(() => {
     if (user.isLoaded) {
@@ -29,18 +26,8 @@ const Chat = ({ user, chat, getChats }) => {
 
   const openSearch = e => {
     e.preventDefault();
-    const dialogsDiv = document.getElementById('dialogs-container');
-    const searchDiv = document.getElementById('search-container');
-
-    if (isSearchOpened) {
-      setSearchOpened(false);
-      dialogsDiv.style.display = 'initial';
-      searchDiv.style.display = 'none';
-    } else {
-      setSearchOpened(true);
-      dialogsDiv.style.display = 'none';
-      searchDiv.style.display = 'initial';
-    }
+    const chatDialog = document.getElementById('chat-dialog-back');
+    chatDialog.style.display = 'initial';
   }
 
   return (
@@ -58,7 +45,7 @@ const Chat = ({ user, chat, getChats }) => {
                 {user.isAuthenticated &&
                   <Fragment>
                     <button onClick={e => openSearch(e)}>
-                      <img src={isSearchOpened ? chatIcon : search} alt='S' />
+                      <img src={search} alt='S' />
                     </button>
                     <button>
                       <img src={menu} alt='M' />
@@ -66,7 +53,6 @@ const Chat = ({ user, chat, getChats }) => {
                   </Fragment>
                 }
               </div>
-              <Search />
               <Dialogs />
               <div className='chat-area'>
                 {user.isAuthenticated ?

@@ -3,7 +3,8 @@ const {
   createUser,
   userById, 
   getUser, 
-  getUsers } = require('../controllers/user.controller');
+  getUsers,
+  findUser } = require('../controllers/user.controller');
 const { requireSignIn } = require('../controllers/auth.controller');
 
 const router = express.Router();
@@ -17,6 +18,9 @@ router.route('/:id')
 
 router.route('/find/all')
   .get(getUsers); // get all users data
+
+router.route('/find')
+  .post(findUser);
 
 router.param('id', userById);
 

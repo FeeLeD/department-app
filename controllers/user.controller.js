@@ -81,11 +81,49 @@ const getUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.json({ users });
-  } catch(err) {
+  } catch (err) {
     res
       .status(400)
-      .json({ errors: [{ err, msg: 'Не удалось загрузить пользователей...' }]});
+      .json({ errors: [{ err, msg: 'Не удалось загрузить пользователей...' }] });
   }
 }
 
-module.exports = { createUser, userById, getUser, getUsers };
+const findUser = async (req, res) => {
+  const { pattern } = req.body;
+  try {
+    let users = [];
+    let docs = await User.find({ email: { '$regex': pattern } }).select('-password');
+    if (docs.length > 0) users = [...users, ...docs];
+    docs = await User.find({ firstName: { '$regex': pattern } }).select('-password');
+    if (docs.length > 0) {
+      docs.forEach(doc => {
+        if (users.every(user => JSON.stringify(user._id) !== JSON.stringify(doc._id))) {
+          users.push(doc);
+        }
+      })
+    }
+    docs = await User.find({ middleName: { '$regex': pattern } }).select('-password');
+    if (docs.length > 0) {
+      docs.forEach(doc => {
+        if (users.every(user => JSON.stringify(user._id) !== JSON.stringify(doc._id))) {
+          users.push(doc);
+        }
+      })
+    }
+    docs = await User.find({ secondName: { '$regex': pattern } }).select('-password');
+    if (docs.length > 0) {
+      docs.forEach(doc => {
+        if (users.every(user => JSON.stringify(user._id) !== JSON.stringify(doc._id))) {
+          users.push(doc);
+        }
+      })
+    }
+
+    if (users.length === 0) res.json({ msg: 'Пользователь не найден' });
+    else res.json(users);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+module.exports = { createUser, userById, getUser, getUsers, findUser };

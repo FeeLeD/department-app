@@ -85,47 +85,6 @@
   transition: ease-in-out .5s;
 }
 
-/* search */
-
-.search {
-  margin: .5em .5em 0;
-  display: none;
-}
-.search .input-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3em;
-}
-.search input {
-  height: 2em;
-  padding: 0 .5em;
-  box-shadow: 0 0 4px #0000003f;
-  background: #eeeeee36;
-  border-radius: .5em;
-  border: none;
-  outline: none;
-}
-.search .string-container {
-  display: flex;
-  justify-content: center;
-  height: 2em;
-}
-.search .results-container {
-  overflow: auto;
-  height: calc(100vh - 14.1em);
-}
-.search .searched-user {
-  background: #73605bd5;
-  min-height: 3em;
-  border-radius: .5em;
-  padding-left: .5em;
-  display: flex;
-  align-items: center;
-  color: #f0f0f0;
-  margin-bottom: .5em;
-}
-
 /* dialogs */
 
 .dialogs {
@@ -145,6 +104,10 @@
   border-radius: .5em;
   display: flex;
   flex-direction: column;
+}
+.dialog:hover {
+  cursor: pointer;
+  background: #665551d5;
 }
 .dialog div:first-child {
   height: 40%;
@@ -288,4 +251,146 @@
 .img-clip {
   width: 40%;
   height: 85%;
+}
+
+/* create chat */
+
+.chat-dialog-back {
+  display: none;
+  z-index: 2;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background: #00000041;
+}
+.chat-dialog {
+  width: 990px;
+  height: 90vh;
+  margin: 5vh auto;
+  background: #fff;
+  border-radius: 1em;
+  border: .1em solid #131c293d;
+  display: grid;
+  grid-template-columns: 35% 65%;
+}
+.chat-dialog button {
+  border-radius: .5em;
+  border: none;
+  outline: none;
+  background: #2d4262e5;
+  box-shadow: 0 0 10px #2d426249;
+  color: #ffffff;
+  transition: ease-in-out .1s;
+}
+.chat-dialog button:hover {
+  cursor: pointer;
+  box-shadow: 0 0 10px #2d4262b9;
+  transition: ease-in-out .1s;
+}
+.chat-dialog > div:first-child {
+  border-right: .1em solid #131c293d;
+}
+.chat-dialog .input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4em;
+}
+.chat-dialog input {
+  height: 2em;
+  padding: 0 .5em;
+  box-shadow: 0 0 4px #0000003f;
+  background: #eeeeee36;
+  border-radius: .5em;
+  border: none;
+  outline: none;
+}
+.chat-dialog .string-container {
+  display: flex;
+  justify-content: center;
+  height: 2em;
+}
+.chat-dialog .results-container {
+  overflow: auto;
+  height: calc(100vh - 10vh - 7em);
+}
+.chat-dialog .searched-user {
+  background: #73605bd5;
+  min-height: 3em;
+  border-radius: .5em;
+  padding: 0 .5em;
+  margin: .5em;
+  display: flex;
+  align-items: center;
+  color: #f0f0f0;
+  margin-bottom: .5em;
+}
+.chat-dialog .searched-user:hover {
+  cursor: pointer;
+  box-shadow: 0 0 13px #0000003f;
+  color: #e0e0e0;
+  background: #856f6ad5;
+}
+.chat-dialog > div:last-child {
+  display: grid;
+  grid-template-rows: 3em calc(90vh - 8em) 5em;
+}
+.chat-dialog .right-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5em;
+  border-bottom: .1em solid #131c293d;
+}
+.chat-dialog .right-main {
+  overflow: auto;
+}
+.chat-dialog .right-main .chosen-user {
+  padding: .5em .5em 0;
+  margin: .5em;
+  border: .1em solid #131c293d;
+}
+.chat-dialog .right-main .no-chosen-user {
+  padding: .5em;
+  margin: .5em;
+  border: .1em solid #131c293d;
+}
+.chat-dialog .right-main .chosen-user button {
+  padding: .5em;
+}
+.chat-dialog .right-main .chosen-user > div:first-child {
+  display: flex;
+  justify-content: flex-end;
+}
+.chat-dialog .right-main .chosen-user > div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+.chat-dialog .right-main .chosen-user > div:last-child span {
+  margin-bottom: .5em;
+  font-style: italic;
+}
+.chat-dialog .right-main .chosen-user > div:last-child span:first-child {
+  font-style: 1.1em;
+  font-weight: bold;
+  font-style: normal;
+}
+.chat-dialog .right-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em;
+  border-top: .1em solid #131c293d;
+}
+.chat-dialog .right-bottom input {
+  height: 2.7em;
+  width: 70%;
+  border-radius: .4em 0 0 .4em;
+  box-shadow: none;
+  border: .1em solid #131c293d;
+  border-right: none;
+}
+.chat-dialog .right-bottom button {
+  border-radius: 0 .4em .4em 0;
+  height: 2.7em;
 }

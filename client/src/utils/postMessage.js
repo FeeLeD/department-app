@@ -11,7 +11,6 @@ const postMessage = async messageData => {
 
   try {
     await axios.post('api/chat/message', body, config);
-    console.log('here')
   } catch (err) {
     console.log(err);
   }
