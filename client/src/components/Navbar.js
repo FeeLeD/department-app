@@ -6,9 +6,9 @@ const Navbar = () => {
     <nav>
       <ul>
         <li><Link to='/'>Главная</Link></li>
-        <li><Link>Студенту</Link></li>
-        <li><Link>Сотруднику</Link></li>
-        <li><Link>Контакты</Link></li>
+        <li><Link to='/student'>Студенту</Link></li>
+        <li><Link to='staff'>Сотруднику</Link></li>
+        <li><Link to='/contacts'>Контакты</Link></li>
         <li><Link to='/chat'>Чат</Link></li>
       </ul>
     </nav>

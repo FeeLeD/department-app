@@ -26,6 +26,9 @@ import Footer from './components/Footer';
 import Main from './components/Main';
 import Profile from './components/Profile';
 import CreateChat from './components/chat/CreateChat';
+import Student from './components/Student';
+import Staff from './components/Staff';
+import Contacts from './components/Contacts';
 
 if (localStorage.token)
   setToken(localStorage.token);
@@ -45,6 +48,9 @@ const App = () => {
         <Navbar />
         <Switch>
           <Route exact path='/' component={Main} />
+          <Route exact path='/student' component={Student} />
+          <Route exact path='/staff' component={Staff} />
+          <Route exact path='/contacts' component={Contacts} />
           <Route exact path='/chat' component={Chat} />
         </Switch>
         <Footer />

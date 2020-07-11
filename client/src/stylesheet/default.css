@@ -34,3 +34,11 @@ ul {
 li {
   list-style-type: none;
 }
+
+.list {
+  margin: 2em auto 0;
+  min-height: 80vh;
+  width: 95%;
+  background: #ffffff;
+  box-shadow: 0 0 10px #1b1b1b34;
+}
