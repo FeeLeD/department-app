@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { setAlert } from '../../actions/alert';
+import { getChats } from '../../actions/chat';
+
 import SearchedUser from './SearchedUser';
 import ChosenUser from './ChosenUser';
 import findUsers from '../../utils/searchUser';
+import createChat from '../../utils/createChat';
 
-const CreateChat = () => {
+
+const CreateChat = ({ setAlert, getChats, user }) => {
   const [foundUsers, setFoundUsers] = useState([]);
   const [usersToAdd, setUsersToAdd] = useState([]);
   const [conference, setConference] = useState('');
@@ -33,8 +40,25 @@ const CreateChat = () => {
     setUsersToAdd(updatedUsers);
   }
 
-  const CreateChat = () => {
-    
+  const createNewChat = () => {
+    if (usersToAdd.length === 0) {
+      setAlert('Добавьте пользователей', 'danger', 2000);
+      return;
+    }
+
+    if (conference === '') {
+      setAlert('Введите название конференции', 'danger', 2000);
+      return;
+    }
+
+    const data = {
+      users: [user.data._id, ...foundUsers.map(user => user._id)],
+      name: conference
+    }
+
+    createChat(data, () => {
+      getChats();
+    });
   }
 
   return (
@@ -92,7 +116,7 @@ const CreateChat = () => {
               placeholder='Введите название конференции'
               maxLength='50'
             />
-            <button onClick={e => CreateChat()}>Создать конференцию</button>
+            <button onClick={e => createNewChat()}>Создать конференцию</button>
           </div>
         </div>
       </div>
@@ -100,5 +124,14 @@ const CreateChat = () => {
   )
 }
 
-export default CreateChat
+CreateChat.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  getChats: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  user: state.auth
+});
+
+export default connect(mapStateToProps, { setAlert, getChats })(CreateChat);
 

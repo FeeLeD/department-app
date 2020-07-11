@@ -11,12 +11,12 @@ const Dialog = ({ id, name, users, setActiveChat, getMessages }) => {
 
   return (
     <div id={id} onClick={() => onClick()} className='dialog'>
+      <div>{name}</div>
       {
         users.length > 2 ?
-        <div>{name}</div> :
-        <div>Private</div>
+        <div>{`Кол-во участников: ${users.length}`}</div> :
+        <div>{`Личный`}</div>
       }
-      <div>msg</div>
     </div>
   );
 }

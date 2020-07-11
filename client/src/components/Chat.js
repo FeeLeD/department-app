@@ -60,7 +60,7 @@ const Chat = ({ user, chat, getChats }) => {
                     {
                       (chat && chat.activeChat !== -1) ?
                         <Fragment>
-                          <div className='chat-area-block header'>User</div>
+                          <div className='chat-area-block header'>Чат</div>
                           <Messages />
                           <Input />
                         </Fragment>
