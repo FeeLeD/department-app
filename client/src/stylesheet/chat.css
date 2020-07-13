@@ -111,11 +111,18 @@
 }
 .dialog div:first-child {
   height: 40%;
-  padding-left: .5em;
+  padding: 0 .5em;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-weight: bold;
   color: #f0f0f0;
+}
+.dialog .new-message {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background: #ff8f8f;
 }
 .dialog div + div {
   height: 60%;
@@ -165,6 +172,7 @@
   margin: .5em 0 0 .5em;
 }
 .chat-area .messages {
+  position: relative;
   box-sizing: border-box;
   height: calc(100vh - 16.35em);
   margin-left: .5em;
@@ -173,6 +181,29 @@
   border-bottom: .05em solid #131c293d;
   overflow: auto;
   display: initial;
+}
+.chat-area .messages .loading {
+  text-align: center;
+  margin: 1em;
+}
+.chat-area .messages .new-messages {
+  display: none;
+  position: sticky;
+  margin-left: 94%;
+  bottom: 2em;
+  width: 50px;
+  height: 50px;
+  border-radius: 20%;
+  background: #ff8f8f9c;
+  justify-content: center;
+  align-items: center;
+}
+.chat-area .messages .new-messages img {
+  width: 90%;
+}
+.chat-area .messages .new-messages:hover {
+  cursor: pointer;
+  background: #ff8f8fdc;
 }
 .chat-area .message-area {
   display: flex;

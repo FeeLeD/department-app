@@ -1,4 +1,5 @@
 const express = require('express');
+const socket = require('socket.io');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/user.routes');
 const authRoutes = require('./routes/auth.routes');
@@ -17,4 +18,20 @@ app.use('/api/chat', chatRoutes);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server started on port: ${PORT}`)); 
+const exressServer = app.listen(PORT, () => console.log(`Server started on port: ${PORT}`)); 
+
+const io = socket(exressServer);
+
+io.on('connection', socket => {
+  socket.on('online', (name) => {
+    console.log(`${name} is joined!`)
+  });
+
+  socket.on('joinChat', ({ email, chat }) => {
+    socket.join(chat);
+  });
+
+  socket.on('message', ({ user, message, chat}) => {
+    io.to(chat).emit('message', { user, message, chat });
+  });
+})

@@ -1,13 +1,13 @@
 import { 
   GET_CHATS, 
   SET_ACTIVE_CHAT,
-  GET_MESSAGES 
+  GET_ONLINE_MESSAGES
 } from '../constants';
 
 const initialState = {
   chats: [],
   activeChat: -1,
-  messages: []
+  onlineMessages: []
 };
 
 export default function(state = initialState, action) {
@@ -23,10 +23,10 @@ export default function(state = initialState, action) {
         ...state,
         activeChat: payload
       }
-    case GET_MESSAGES:
+    case GET_ONLINE_MESSAGES:
       return {
         ...state,
-        messages: payload
+        onlineMessages: [...state.onlineMessages, payload]
       }
     default:
       return state;

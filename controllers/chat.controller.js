@@ -58,7 +58,7 @@ const postMessage = async (req, res) => {
   } = req.body;
 
   const user = {
-    id: userId,
+    _id: userId,
     firstName,
     middleName,
     secondName

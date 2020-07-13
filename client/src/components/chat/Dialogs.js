@@ -14,7 +14,7 @@ const Dialogs = ({ user, chat }) => {
                   key={c._id}
                   id={c._id}
                   name={c.name}
-                  users={c.users} 
+                  users={c.users}
                 />) 
             }
           </Fragment>

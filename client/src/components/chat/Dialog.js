@@ -1,21 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setActiveChat, getMessages } from '../../actions/chat';
+import { setActiveChat } from '../../actions/chat';
 
-const Dialog = ({ id, name, users, setActiveChat, getMessages }) => {
-  const onClick = () => {
+const Dialog = ({ id, name, users, setActiveChat }) => {
+
+  const onClick = async () => {
     setActiveChat(id);
-    getMessages(id);
+    const dialog = document.getElementById(id);
+    dialog.children[0].children[1].classList.remove('new-message');
   }
 
   return (
     <div id={id} onClick={() => onClick()} className='dialog'>
-      <div>{name}</div>
+      <div>
+        <span>{name}</span>
+        <div></div>
+      </div>
       {
         users.length > 2 ?
-        <div>{`Кол-во участников: ${users.length}`}</div> :
-        <div>{`Личный`}</div>
+          <div>{`Кол-во участников: ${users.length}`}</div> :
+          <div>{`Личный`}</div>
       }
     </div>
   );
@@ -25,4 +30,4 @@ Dialog.propTypes = {
   setActiveChat: PropTypes.func.isRequired
 };
 
-export default connect(null, { setActiveChat, getMessages })(Dialog);
+export default connect(null, { setActiveChat })(Dialog);

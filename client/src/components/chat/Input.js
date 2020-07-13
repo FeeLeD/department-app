@@ -6,7 +6,7 @@ import clip from '../../images/clip.png';
 
 import postMessage from '../../utils/postMessage';
 
-const Input = ({ user, chat }) => {
+const Input = ({ user, chat, sendMessage }) => {
   const [message, setMessage] = useState('');
 
   const send = e => {
@@ -24,7 +24,7 @@ const Input = ({ user, chat }) => {
     };
 
     postMessage(messageData);
-
+    sendMessage(user.data, message, chat.activeChat);
     setMessage('');
   };
 
@@ -32,7 +32,7 @@ const Input = ({ user, chat }) => {
     <div className='chat-area-block input'>
       <div>
         <button>
-          <img className='img-clip' src={clip} alt='Att'/>
+          <img className='img-clip' src={clip} alt='Att' />
         </button>
       </div>
       <div>
@@ -45,7 +45,7 @@ const Input = ({ user, chat }) => {
       </div>
       <div>
         <button onClick={e => send(e)}>
-          <img className='img-plane' src={plane} alt='Go'/>
+          <img className='img-plane' src={plane} alt='Go' />
         </button>
       </div>
     </div>

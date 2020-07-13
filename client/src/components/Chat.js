@@ -1,9 +1,10 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import io from 'socket.io-client';
 
 // Redux
 import { connect } from 'react-redux';
-import { getChats } from '../actions/chat';
+import { getChats, getOnlineMessages } from '../actions/chat';
 
 // Images
 import search from '../images/search.png';
@@ -16,18 +17,58 @@ import Dialogs from './chat/Dialogs';
 import Messages from './chat/Messages';
 import Input from './chat/Input';
 
-const Chat = ({ user, chat, getChats }) => {
+let URL, socket;
+if ((window.location.href.includes('localhost'))) {
+    URL = 'http://localhost:3000/';
+}
+
+const Chat = ({ user, chat, getChats, getOnlineMessages }) => {
+  const [onlineMessages, setOnlineMessages] = useState([]);
+
+  useEffect(() => {
+    socket = io(URL);
+  }, [])
 
   useEffect(() => {
     if (user.isLoaded) {
-      getChats();
+      socket.emit('online', user.data.firstName);
+
+      socket.on('message', ({ user, message, chat }) => {
+        setOnlineMessages([...onlineMessages, { user, chat, content: message }]);
+        getOnlineMessages({user, chat, content: message});
+      })
+
+      getChats(chats => {
+        chats.forEach(chat => {
+          joinChat(chat._id);
+        })
+      });
     }
   }, [user.isLoaded]);
+
+  useEffect(() => {
+    let dialog;
+    onlineMessages.forEach(message => {
+      if (message.chat !== chat.activeChat) {
+        dialog = document.getElementById(message.chat);
+        dialog.children[0].children[1].classList.add('new-message');
+      }
+    });
+  }, [onlineMessages]);
 
   const openSearch = e => {
     e.preventDefault();
     const chatDialog = document.getElementById('chat-dialog-back');
     chatDialog.style.display = 'initial';
+  }
+
+  const joinChat = chat => {
+    const email = user.data.email;
+    socket.emit('joinChat', { email, chat });
+  }
+
+  const sendMessage = (user, message, chat) => {
+    socket.emit('message', { user, message, chat });
   }
 
   return (
@@ -53,7 +94,7 @@ const Chat = ({ user, chat, getChats }) => {
                   </Fragment>
                 }
               </div>
-              <Dialogs />
+              <Dialogs joinChat={joinChat} />
               <div className='chat-area'>
                 {user.isAuthenticated ?
                   <Fragment>
@@ -62,7 +103,7 @@ const Chat = ({ user, chat, getChats }) => {
                         <Fragment>
                           <div className='chat-area-block header'>Чат</div>
                           <Messages />
-                          <Input />
+                          <Input sendMessage={sendMessage}/>
                         </Fragment>
                         :
                         <div className='no-chats'>Выберите чат...</div>
@@ -84,6 +125,7 @@ const Chat = ({ user, chat, getChats }) => {
 
 Chat.propTypes = {
   getChats: PropTypes.func.isRequired,
+  getOnlineMessages: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 };
 
@@ -92,4 +134,4 @@ const mapStateToProps = state => ({
   chat: state.chat
 });
 
-export default connect(mapStateToProps, { getChats })(Chat);
+export default connect(mapStateToProps, { getChats, getOnlineMessages })(Chat);

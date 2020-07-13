@@ -2,10 +2,10 @@ import axios from 'axios';
 import { 
   GET_CHATS, 
   SET_ACTIVE_CHAT,
-  GET_MESSAGES
+  GET_ONLINE_MESSAGES
 } from '../constants';
 
-export const getChats = () => async dispatch => {
+export const getChats = (next) => async dispatch => {
   try {
     const res = await axios.get('/api/chat');
 
@@ -13,6 +13,8 @@ export const getChats = () => async dispatch => {
       type: GET_CHATS,
       payload: res.data
     })
+
+    next(res.data);
   } catch (err) {
     console.log(err);
   }
@@ -25,15 +27,15 @@ export const setActiveChat = id => dispatch => {
   });
 }
 
-export const getMessages = chatId => async dispatch => {
-  try {
-    const res = await axios.get(`/api/chat/message/${chatId}`);
-    
-    dispatch({
-      type: GET_MESSAGES,
-      payload: res.data
-    })
-  } catch (err) {
-    console.log(err);
+export const getOnlineMessages = ({user, chat, content}) => dispatch => {
+  const message = {
+    user,
+    chat,
+    content,
+    date: Date.now()
   }
+  dispatch({
+    type: GET_ONLINE_MESSAGES,
+    payload: message
+  })
 }
