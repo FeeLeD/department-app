@@ -2,9 +2,11 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   USER_LOADED,
-  AUTH_FALIED
+  AUTH_FALIED,
+  SET_SOCKET
 } from '../constants';
 import axios from 'axios';
+import io from 'socket.io-client';
 import { setAlert } from './alert';
 import setToken from '../utils/setToken';
 
@@ -62,4 +64,17 @@ export const loginUser = ({ email, password }, next) => async dispatch => {
 
 export const logoutUser = () => dispatch => {
   dispatch({ type: LOGIN_FAIL });
+}
+
+export const setSocket = () => dispatch => {
+  let URL;
+  if ((window.location.href.includes('localhost'))) {
+    URL = 'http://localhost:3000/';
+  }
+  const socket = io(URL);
+
+  dispatch({
+    type: SET_SOCKET,
+    payload: socket
+  })
 }

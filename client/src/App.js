@@ -5,7 +5,7 @@ import setToken from './utils/setToken';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
-import { loadUser } from './actions/auth';
+import { loadUser, setSocket } from './actions/auth';
 
 // Styles
 import './stylesheet/normalize.css';
@@ -36,6 +36,7 @@ if (localStorage.token)
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
+    store.dispatch(setSocket());
   }, []);
 
   return (

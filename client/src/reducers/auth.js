@@ -2,7 +2,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   USER_LOADED,
-  AUTH_FALIED
+  AUTH_FALIED,
+  SET_SOCKET
 } from '../constants';
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   loading: true,
   isAuthenticated: false,
   data: {},
+  socket: {}
 };
 
 export default function (state = initialState, action) {
@@ -40,6 +42,11 @@ export default function (state = initialState, action) {
         loading: true,
         isAuthenticated: false,
         data: {}
+      }
+    case SET_SOCKET:
+      return {
+        ...state,
+        socket: payload
       }
     default:
       return state;

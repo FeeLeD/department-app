@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import io from 'socket.io-client';
 
 // Redux
 import { connect } from 'react-redux';
@@ -17,26 +16,27 @@ import Dialogs from './chat/Dialogs';
 import Messages from './chat/Messages';
 import Input from './chat/Input';
 
-let URL, socket;
-if ((window.location.href.includes('localhost'))) {
-    URL = 'http://localhost:3000/';
-}
-
-const Chat = ({ user, chat, getChats, getOnlineMessages }) => {
+const Chat = ({ user, socket, chat, getChats, getOnlineMessages }) => {
   const [onlineMessages, setOnlineMessages] = useState([]);
 
   useEffect(() => {
-    socket = io(URL);
-  }, [])
-
-  useEffect(() => {
     if (user.isLoaded) {
-      socket.emit('online', user.data.firstName);
+      const data = user.data;
+      const socketId = socket.id;
+      socket.emit('online', { data, socketId });
 
       socket.on('message', ({ user, message, chat }) => {
         setOnlineMessages([...onlineMessages, { user, chat, content: message }]);
-        getOnlineMessages({user, chat, content: message});
-      })
+        getOnlineMessages({ user, chat, content: message });
+      });
+
+      socket.on('new-chat', chatId => {
+        getChats(chats => {
+          chats.forEach(chat => {
+            joinChat(chat._id);
+          })
+        });
+      });
 
       getChats(chats => {
         chats.forEach(chat => {
@@ -63,8 +63,7 @@ const Chat = ({ user, chat, getChats, getOnlineMessages }) => {
   }
 
   const joinChat = chat => {
-    const email = user.data.email;
-    socket.emit('joinChat', { email, chat });
+    socket.emit('joinChat', chat);
   }
 
   const sendMessage = (user, message, chat) => {
@@ -103,7 +102,7 @@ const Chat = ({ user, chat, getChats, getOnlineMessages }) => {
                         <Fragment>
                           <div className='chat-area-block header'>Чат</div>
                           <Messages />
-                          <Input sendMessage={sendMessage}/>
+                          <Input sendMessage={sendMessage} />
                         </Fragment>
                         :
                         <div className='no-chats'>Выберите чат...</div>
@@ -131,6 +130,7 @@ Chat.propTypes = {
 
 const mapStateToProps = state => ({
   user: state.auth,
+  socket: state.auth.socket,
   chat: state.chat
 });
 

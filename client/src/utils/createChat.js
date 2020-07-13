@@ -10,9 +10,9 @@ const createChat = async (data, next) => {
   const body = JSON.stringify(data);
 
   try {
-    await axios.post('/api/chat', body, config);
+    const res = await axios.post('/api/chat', body, config);
     
-    next();
+    next(res.data);
   } catch(err) {
     console.log(err);
   }

@@ -10,7 +10,7 @@ import findUsers from '../../utils/searchUser';
 import createChat from '../../utils/createChat';
 
 
-const CreateChat = ({ setAlert, getChats, user }) => {
+const CreateChat = ({ setAlert, getChats, user, socket }) => {
   const [foundUsers, setFoundUsers] = useState([]);
   const [usersToAdd, setUsersToAdd] = useState([]);
   const [conference, setConference] = useState('');
@@ -25,7 +25,9 @@ const CreateChat = ({ setAlert, getChats, user }) => {
     if (e.target.value === '') {
       setFoundUsers([]);
     } else {
-      const users = await findUsers(e.target.value);
+      let users = await findUsers(e.target.value);
+      if (users.length > 0)
+        users = users.filter(u => u._id !== user.data._id)
       setFoundUsers(users);
     }
   }
@@ -51,14 +53,22 @@ const CreateChat = ({ setAlert, getChats, user }) => {
       return;
     }
 
-    const data = {
-      users: [user.data._id, ...foundUsers.map(user => user._id)],
+    let data = {
+      users: [user.data._id, ...usersToAdd.map(user => user._id)],
       name: conference
     }
 
-    createChat(data, () => {
-      getChats();
+    const chatDialog = document.getElementById('chat-dialog-back');
+    chatDialog.style.display = 'none';
+
+    createChat(data, (chatId) => {
+      data = { ...data, chatId };
+      socket.emit('new-chat', data);
+      getChats(chats => {
+        chats.forEach(chat => socket.emit('joinChat', chat));
+      });
     });
+
   }
 
   return (
@@ -110,7 +120,7 @@ const CreateChat = ({ setAlert, getChats, user }) => {
             }
           </div>
           <div className='right-bottom'>
-            <input 
+            <input
               value={conference}
               onChange={e => setConference(e.target.value)}
               placeholder='Введите название конференции'
@@ -130,7 +140,8 @@ CreateChat.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  user: state.auth
+  user: state.auth,
+  socket: state.auth.socket
 });
 
 export default connect(mapStateToProps, { setAlert, getChats })(CreateChat);
